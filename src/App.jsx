@@ -9,6 +9,8 @@ import SaveJobs from './pages/savedjob'
 import PostJob from './pages/postJob'
 import JobPage from './pages/Job'
 import Header from './components/header'
+import { Heart } from 'lucide-react'
+import ProtectedRoute from './components/protected-route'
 
 function App() {
 
@@ -16,19 +18,19 @@ function App() {
   return (
     <div>
       <div className='grid-background'></div>
-      <main className='min-h-screen px-10 container'>
+      <main className='min-h-screen px-14 container'>
         <Header/>
         <Routes>
           <Route path='/' element={<LandingPage/>}/>
-          <Route path='/onboarding' element={<Onboarding/>}/>
-          <Route path='/jobs' element={<JobListing/>}/>
-          <Route path='/my-jobs' element={<MyJobs/>}/>
-          <Route path='/saved-job' element={<SaveJobs/>}/>
-          <Route path='/post-job' element={<PostJob/>}/>
-          <Route path='/job/:id' element={<JobPage/>}/>
+          <Route path='/onboarding' element={<ProtectedRoute><Onboarding/></ProtectedRoute>}/>
+          <Route path='/jobs' element={<ProtectedRoute><JobListing/></ProtectedRoute>}/>
+          <Route path='/my-jobs' element={<ProtectedRoute><MyJobs/></ProtectedRoute>}/>
+          <Route path='/saved-jobs' element={<ProtectedRoute><SaveJobs/></ProtectedRoute>}/>
+          <Route path='/post-job' element={<ProtectedRoute><PostJob/></ProtectedRoute>}/>
+          <Route path='/job/:id' element={<ProtectedRoute><JobPage/></ProtectedRoute>}/>
         </Routes>
-      </main>
-      <div className='p-10 text-center bg-gray-800 mt-10'>Made with Love by Manuj</div>
+      </main>-
+      <div className='p-10 text-center bg-gray-800 mt-10'>Made with <span className='flex justify-center'><Heart color='red'  /></span> by Manuj </div>
      
  
     </div>
