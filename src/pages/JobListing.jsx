@@ -11,7 +11,7 @@ const JobListing = () => {
 
     const fetchJobs = async () => {
       const supabaseAccessToken = await session.getToken({
-        template: "supabase",
+        template:"supabase"
       })
 
       const data = await getJobs(supabaseAccessToken)
