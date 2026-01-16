@@ -30,8 +30,7 @@ function App() {
           <Route path='/job/:id' element={<ProtectedRoute><JobPage/></ProtectedRoute>}/>
         </Routes>
       </main>-
-      <div className='p-10 text-center bg-gray-800 mt-10'>Made with <span className='flex justify-center'><Heart color='red'  /></span> by Manuj </div>
-     
+      <div className='p-10 text-center bg-gray-800 mt-10'>Made with <span className='flex justify-center'><Heart color='red'  /></span> by Manuj </div>     
  
     </div>
   )

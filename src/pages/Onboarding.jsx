@@ -1,6 +1,6 @@
 import { useUser } from '@clerk/clerk-react'
 import { Loader } from 'lucide-react'
-import React from 'react'
+import React, { use, useEffect } from 'react'
 import {BarLoader} from 'react-spinners'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
@@ -8,13 +8,26 @@ import { useNavigate } from 'react-router-dom'
 const Onboarding = () => {
   const {user,isLoaded}=useUser()
   const navigate=useNavigate()
+  
+  
 
   const handleRoleSelection=async(role)=>{
-    await user.update({unsafeMetadata:role})
-    .then(()=>role==="candidate")
+    await user.update({unsafeMetadata:{role}})
+    .then(()=>{
+      navigate(role==="recruiter"?"/post-job":"/jobs")
+    })
+    .catch((err)=>{
+      console.log(err);
+      
+    }) 
   }
-  
-  
+
+  useEffect(()=>{
+    if(user?.unsafeMetadata?.role){
+      navigate(user?.unsafeMetadata?.role==="recruiter"?"/post-job":"/jobs")
+    }
+  },[user])
+
 
   if(!isLoaded){
     return(
