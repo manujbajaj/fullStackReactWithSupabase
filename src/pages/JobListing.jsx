@@ -1,27 +1,57 @@
 import { getJobs } from '@/api/apiJobs'
-import { useSession } from '@clerk/clerk-react'
+import JobCard from '@/components/job-card'
+import useFetch from '@/hooks/use-fetch'
+import { useSession, useUser } from '@clerk/clerk-react'
 import { useEffect } from 'react'
+import { useState } from 'react'
+import { BarLoader } from 'react-spinners'
 
 const JobListing = () => {
 
-  const { session, isLoaded } = useSession()
+  const {isLoaded}=useUser()
+  const [searchQuery, setSearchQuery] = useState("")
+  const [location, setLocation] = useState("")
+  const [company_id, setCompany_id] = useState("")
 
-  useEffect(() => {
-    if (!isLoaded || !session) return   // ⛔ block until Clerk is ready
+  const {fn:fnJobs,data:jobs,loading:loadingJobs}= useFetch(getJobs,{location,company_id,searchQuery})
 
-    const fetchJobs = async () => {
-      const supabaseAccessToken = await session.getToken({
-        template:"supabase"
-      })
+  // console.log(dataJobs);
+  
+  
+  useEffect(()=>{
+    if(isLoaded) fnJobs();
+    
+  },[isLoaded,location,company_id,searchQuery])
+  if(!isLoaded){
+    return(
+      <BarLoader className='mb-4' color='#36d7b7' width={"100%"}/>
+    )
+  }
 
-      const data = await getJobs(supabaseAccessToken)
-      console.log(data)
-    }
+  return <div>
+    <h1 className='gradient-title font-extrabold text-6xl sm:text-7xl'>Latest Jobs</h1>
 
-    fetchJobs()
-  }, [isLoaded, session])
+    {/* Add filters here */}
 
-  return <div>JobListing</div>
+
+    {loadingJobs &&(
+        <BarLoader className='mt-4' color='#36d7b7' width={"100%"}/>
+    )}
+
+    {loadingJobs===false&&(
+      <div className='mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        {jobs?.length?(
+          jobs.map((job)=>{
+            return <JobCard key={job.id} job={job}
+            savedInit={job?.saved?.length>0}/>
+          })
+        ):(
+          <div>No Jobs Found :(</div>
+        )}
+      </div>
+    )}
+  </div>
 }
 
 export default JobListing
+ 

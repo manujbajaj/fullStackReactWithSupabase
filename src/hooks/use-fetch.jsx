@@ -3,7 +3,7 @@ import { useSession } from '@clerk/clerk-react'
 import React, { useState } from 'react'
 
 const useFetch = (cb,options={}) => {
-    const [data,setData]=useState()
+    const [data,setData]=useState(null)
     const [error,setError]=useState()
     const [loading,setLoading]=useState(null)
 
@@ -14,7 +14,7 @@ const useFetch = (cb,options={}) => {
         setError(null)
 
         try{
-            const supabaseAccessToken=session.getToken({
+            const supabaseAccessToken=await session.getToken({
                 template:"supabase"
             })
 
