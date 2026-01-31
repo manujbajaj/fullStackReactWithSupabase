@@ -1,9 +1,9 @@
 import React from 'react'
 
-const applicationCard = ({application,isCandidate=false}) => {
+const ApplicationCard = ({application,isCandidate=false}) => {
   return (
     <div>applicationCard</div>
   )
 }
 
-export default applicationCard
+export default ApplicationCard
